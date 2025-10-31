@@ -22,6 +22,13 @@ export default function App() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-end bg-slate-100 dark:bg-slate-950">
       <div className="mx-auto w-full max-w-5xl">
+        <div className="mb-4 ml-6">
+          <img
+            src="/images/design-business-freedom-logo.png"
+            alt="Design Business Freedom with Melissa Galt"
+            className="h-16 w-auto"
+          />
+        </div>
         <ChatKitPanel
           theme={scheme}
           onWidgetAction={handleWidgetAction}
