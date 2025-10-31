@@ -25,10 +25,9 @@ export const getThemeConfig = (theme: ColorScheme): ThemeOption => ({
       shade: theme === "dark" ? -1 : -4,
     },
     accent: {
-      // Melissa Galt brand colors - using lighter palette
-      // Light Gold: #D8CA90 for light mode accents
-      // Accent Gold: #B4995B for dark mode
-      primary: theme === "dark" ? "#B4995B" : "#D8CA90",
+      // Melissa Galt brand colors - using lighter palette for both modes
+      // Light Gold: #D8CA90 for consistent light appearance
+      primary: "#D8CA90",
       level: 1,
     },
   },
