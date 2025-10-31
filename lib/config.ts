@@ -25,11 +25,10 @@ export const getThemeConfig = (theme: ColorScheme): ThemeOption => ({
       shade: theme === "dark" ? -1 : -4,
     },
     accent: {
-      // Melissa Galt brand colors
-      // Primary Blue: #2E6ABD for main accents
-      // Dark Navy: #122040 for dark mode
-      // Accent Gold: #B4995B for highlights
-      primary: theme === "dark" ? "#B4995B" : "#2E6ABD",
+      // Melissa Galt brand colors - using lighter palette
+      // Light Gold: #D8CA90 for light mode accents
+      // Accent Gold: #B4995B for dark mode
+      primary: theme === "dark" ? "#B4995B" : "#D8CA90",
       level: 1,
     },
   },
