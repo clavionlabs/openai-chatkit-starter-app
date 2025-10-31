@@ -345,15 +345,28 @@ export function ChatKitPanel({
 
   return (
     <div className="relative pb-8 flex h-[90vh] w-full rounded-2xl flex-col overflow-hidden bg-white shadow-sm transition-colors dark:bg-slate-900">
-      <ChatKit
-        key={widgetInstanceKey}
-        control={chatkit.control}
-        className={
-          blockingError || isInitializingSession
-            ? "pointer-events-none opacity-0"
-            : "block h-full w-full"
-        }
-      />
+      <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-6 py-4 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
+        <img
+          src="/images/design-business-freedom-logo.png"
+          alt="Design Business Freedom with Melissa Galt"
+          className="h-12 w-auto"
+        />
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white absolute left-1/2 transform -translate-x-1/2">
+          AI HR Dream Team
+        </h1>
+        <div className="w-48"></div>
+      </div>
+      <div className="mt-20 h-full">
+        <ChatKit
+          key={widgetInstanceKey}
+          control={chatkit.control}
+          className={
+            blockingError || isInitializingSession
+              ? "pointer-events-none opacity-0"
+              : "block h-full w-full"
+          }
+        />
+      </div>
       <ErrorOverlay
         error={blockingError}
         fallbackMessage={
