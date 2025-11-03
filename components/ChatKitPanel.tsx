@@ -344,9 +344,9 @@ export function ChatKitPanel({
   }
 
   return (
-    <div className="relative pb-8 flex h-[90vh] w-full rounded-2xl flex-col overflow-hidden bg-white shadow-sm transition-colors dark:bg-slate-900 border border-[#B4995B]">
-      <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-center px-6 py-4 bg-white dark:bg-slate-900 border-b border-[#B4995B]">
-        <h1 className="text-2xl text-slate-900 dark:text-white" style={{ fontFamily: "'Josefin Sans', sans-serif", fontWeight: 700 }}>
+    <div className={`relative pb-8 flex h-[90vh] w-full rounded-2xl flex-col overflow-hidden shadow-sm transition-colors border border-[#B4995B] ${theme === "dark" ? "bg-slate-900" : "bg-white"}`}>
+      <div className={`absolute top-0 left-0 right-0 z-10 flex items-center justify-center px-6 py-4 border-b border-[#B4995B] ${theme === "dark" ? "bg-slate-900" : "bg-white"}`}>
+        <h1 className={`text-2xl ${theme === "dark" ? "text-white" : "text-slate-900"}`} style={{ fontFamily: "'Josefin Sans', sans-serif", fontWeight: 700 }}>
           AI HR Dream Team
         </h1>
       </div>
