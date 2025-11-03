@@ -28,7 +28,7 @@ export default function App() {
       <div className="mx-auto w-full max-w-5xl relative">
         <button
           onClick={toggleTheme}
-          className={`absolute top-4 right-6 z-20 p-3 rounded-lg shadow-md hover:shadow-lg transition-all border-2 border-[#B4995B] hover:border-[#D8CA90] ${scheme === "light" ? "bg-slate-800" : "bg-slate-800"}`}
+          className={`absolute top-4 right-6 z-20 p-3 rounded-lg shadow-md hover:shadow-lg transition-all border-2 border-[#B4995B] hover:border-[#D8CA90] ${scheme === "light" ? "bg-white" : "bg-slate-800"}`}
           aria-label="Toggle theme"
         >
           {scheme === "light" ? (
@@ -38,7 +38,7 @@ export default function App() {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="w-5 h-5 text-white"
+              className="w-5 h-5 text-[#B4995B]"
             >
               <path
                 strokeLinecap="round"
@@ -53,7 +53,7 @@ export default function App() {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="w-5 h-5 text-yellow-400"
+              className="w-5 h-5 text-[#D8CA90]"
             >
               <path
                 strokeLinecap="round"
