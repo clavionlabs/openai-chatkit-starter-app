@@ -63,7 +63,7 @@ export default function App() {
             </svg>
           )}
         </button>
-        <div className="mb-4 ml-6">
+        <div className="mb-4 ml-6 mt-8">
           <img
             src="/images/design-business-freedom-logo.png"
             alt="Design Business Freedom with Melissa Galt"
