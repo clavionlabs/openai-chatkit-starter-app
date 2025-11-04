@@ -370,6 +370,7 @@ export function ChatKitPanel({
         }
         onRetry={blockingError && errors.retryable ? handleResetChat : null}
         retryLabel="Restart chat"
+        theme={theme}
       />
     </div>
   );
