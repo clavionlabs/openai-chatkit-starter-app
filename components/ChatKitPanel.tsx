@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import {
   STARTER_PROMPTS,
@@ -286,7 +286,7 @@ export function ChatKitPanel({
     [isWorkflowConfigured, setErrorState]
   );
 
-  const chatkit = useChatKit({
+  const chatkitConfig = useMemo(() => ({
     api: { getClientSecret },
     theme: {
       colorScheme: theme,
@@ -359,7 +359,9 @@ export function ChatKitPanel({
         errorJSON: JSON.stringify(error, null, 2),
       });
     },
-  });
+  }), [theme, getClientSecret, onThemeRequest, onWidgetAction, onResponseEnd, setErrorState]);
+
+  const chatkit = useChatKit(chatkitConfig);
 
   // Track chatkit.control changes
   useEffect(() => {
