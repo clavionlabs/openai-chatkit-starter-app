@@ -7,8 +7,13 @@ export const CREATE_SESSION_ENDPOINT = "/api/create-session";
 
 export const STARTER_PROMPTS: StartScreenPrompt[] = [
   {
-    label: "What can you do?",
-    prompt: "What can you do?",
+    label: "Write a job description for a Junior Interior Designer.",
+    prompt: "Write a job description for a Junior Interior Designer.",
+    icon: "circle-question",
+  },
+  {
+    label: "Create interview questions for a Procurement Manager.",
+    prompt: "Create interview questions for a Procurement Manager.",
     icon: "circle-question",
   },
 ];
