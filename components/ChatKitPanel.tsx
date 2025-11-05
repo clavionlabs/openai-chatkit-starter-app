@@ -66,6 +66,15 @@ export function ChatKitPanel({
     setErrors((current) => ({ ...current, ...updates }));
   }, []);
 
+  // Temporary debugging
+  useEffect(() => {
+    console.log('[ChatKitPanel] State:', {
+      isInitializingSession,
+      errors,
+      scriptStatus
+    });
+  }, [isInitializingSession, errors, scriptStatus]);
+
   useEffect(() => {
     return () => {
       isMountedRef.current = false;
