@@ -9,22 +9,22 @@ export const STARTER_PROMPTS: StartScreenPrompt[] = [
   {
     label: "$5M: CEO Transition & Leadership Team",
     prompt: "My firm is approaching $5M in revenue, and it's time for me to transition fully into the CEO role. Guide me through structuring an executive leadership team, including a Director of Design and Director of Operations, and outline a 6-month leadership handoff plan.",
-    icon: "users",
+    icon: "agent",
   },
   {
     label: "$2M: Director of Operations",
     prompt: "Our firm is at $2M in revenue, and our systems are lagging behind our growth. Draft a Director of Operations job description for me and outline the key responsibilities I, as the principal, should delegate to this person to focus on creative direction.",
-    icon: "briefcase",
+    icon: "suitcase",
   },
   {
     label: "$1M: Remote Team Structure",
     prompt: "We're a remote firm hitting over $1M in revenue, but our delivery systems are starting to crack. Advise me on the key remote roles—like a Design Coordinator or CAD Drafter—that will fix our bottlenecks without increasing physical overhead.",
-    icon: "laptop",
+    icon: "globe",
   },
   {
     label: "$250K: First Strategic Hire",
     prompt: "My firm is generating around $250K, and I'm overwhelmed doing everything myself. Help me analyze whether my first investment in talent should be a Design Assistant, an Office Manager, or an Intern to get the greatest return on my time and energy.",
-    icon: "user-plus",
+    icon: "user",
   },
 ];
 
