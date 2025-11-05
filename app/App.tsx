@@ -73,7 +73,7 @@ export default function App() {
           </svg>
         )}
       </button>
-      <div className="mx-auto w-full max-w-5xl">
+      <div className="mx-auto w-full max-w-5xl mt-24 mb-8 px-4">
         <ChatKitPanel
           theme={scheme}
           onWidgetAction={handleWidgetAction}
