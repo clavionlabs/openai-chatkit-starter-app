@@ -16,6 +16,16 @@ export const STARTER_PROMPTS: StartScreenPrompt[] = [
     prompt: "Create interview questions for a Procurement Manager.",
     icon: "circle-question",
   },
+  {
+    label: "Draft an onboarding plan for a new Project Manager.",
+    prompt: "Draft an onboarding plan for a new Project Manager.",
+    icon: "circle-question",
+  },
+  {
+    label: "We're a team of three with about $600K in revenue, but we're constantly hitting bottlenecks in procurement and project management. Can you help me define the ideal role to solve this and structure it so we hire for maximum efficiency?",
+    prompt: "We're a team of three with about $600K in revenue, but we're constantly hitting bottlenecks in procurement and project management. Can you help me define the ideal role to solve this and structure it so we hire for maximum efficiency?",
+    icon: "circle-question",
+  },
 ];
 
 export const PLACEHOLDER_INPUT = "Ask anything...";
