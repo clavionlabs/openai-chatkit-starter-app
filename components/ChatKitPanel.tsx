@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import {
   STARTER_PROMPTS,
@@ -61,6 +61,7 @@ export function ChatKitPanel({
       : "pending"
   );
   const [widgetInstanceKey, setWidgetInstanceKey] = useState(0);
+  const chatKitInitialized = useRef(false);
 
   // Track theme changes
   useEffect(() => {
@@ -339,25 +340,44 @@ export function ChatKitPanel({
     });
   }, []);
 
+  // Memoize all config objects to prevent recreation
+  const apiConfig = useMemo(() => ({ getClientSecret }), [getClientSecret]);
+
+  const themeConfig = useMemo(() => ({
+    colorScheme: theme,
+    ...getThemeConfig(theme),
+  }), [theme]);
+
+  const startScreenConfig = useMemo(() => ({
+    greeting: GREETING,
+    prompts: STARTER_PROMPTS,
+  }), []);
+
+  const composerConfig = useMemo(() => ({
+    placeholder: PLACEHOLDER_INPUT,
+    attachments: {
+      enabled: true,
+    },
+  }), []);
+
+  const threadItemActionsConfig = useMemo(() => ({
+    feedback: false,
+  }), []);
+
+  // Prevent double initialization in React Strict Mode
+  useEffect(() => {
+    if (!chatKitInitialized.current) {
+      console.log("[ChatKitPanel] First ChatKit initialization");
+      chatKitInitialized.current = true;
+    }
+  }, []);
+
   const chatkit = useChatKit({
-    api: { getClientSecret },
-    theme: {
-      colorScheme: theme,
-      ...getThemeConfig(theme),
-    },
-    startScreen: {
-      greeting: GREETING,
-      prompts: STARTER_PROMPTS,
-    },
-    composer: {
-      placeholder: PLACEHOLDER_INPUT,
-      attachments: {
-        enabled: true,
-      },
-    },
-    threadItemActions: {
-      feedback: false,
-    },
+    api: apiConfig,
+    theme: themeConfig,
+    startScreen: startScreenConfig,
+    composer: composerConfig,
+    threadItemActions: threadItemActionsConfig,
     onClientTool: handleClientTool,
     onResponseEnd,
     onResponseStart: handleResponseStart,
