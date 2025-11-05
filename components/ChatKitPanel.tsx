@@ -347,7 +347,12 @@ export function ChatKitPanel({
     onError: ({ error }: { error: unknown }) => {
       // Note that Chatkit UI handles errors for your users.
       // Thus, your app code doesn't need to display errors on UI.
-      console.error("ChatKit error", error);
+      console.error("ChatKit error - FULL DETAILS:", {
+        error,
+        errorType: typeof error,
+        errorString: String(error),
+        errorJSON: JSON.stringify(error, null, 2),
+      });
     },
   });
 
