@@ -305,6 +305,7 @@ export function ChatKitPanel({
       name: string;
       params: Record<string, unknown>;
     }) => {
+      console.log("[ChatKitPanel] onClientTool called", invocation.name);
       if (invocation.name === "switch_theme") {
         const requested = invocation.params.theme;
         if (requested === "light" || requested === "dark") {
@@ -350,20 +351,27 @@ export function ChatKitPanel({
     },
   });
 
+  // Track chatkit.control changes
+  useEffect(() => {
+    console.log("[ChatKitPanel] chatkit.control changed:", {
+      hasControl: Boolean(chatkit.control),
+      control: chatkit.control,
+    });
+  }, [chatkit.control]);
+
   const activeError = errors.session ?? errors.integration;
   const blockingError = errors.script ?? activeError;
   const shouldHideChatKit = blockingError || isInitializingSession;
 
-  if (isDev) {
-    console.debug("[ChatKitPanel] render state", {
-      isInitializingSession,
-      hasControl: Boolean(chatkit.control),
-      scriptStatus,
-      blockingError,
-      shouldHideChatKit,
-      workflowId: WORKFLOW_ID,
-    });
-  }
+  // Always log render state (production too)
+  console.log("[ChatKitPanel] RENDER", {
+    isInitializingSession,
+    hasControl: Boolean(chatkit.control),
+    scriptStatus,
+    blockingError,
+    shouldHideChatKit,
+    className: shouldHideChatKit ? "HIDDEN (opacity-0)" : "VISIBLE (block)",
+  });
 
   return (
     <div className={`relative pb-8 flex h-[90vh] w-full rounded-2xl flex-col overflow-hidden shadow-sm transition-colors border border-[#B4995B] ${theme === "dark" ? "bg-slate-900" : "bg-white"}`}>
