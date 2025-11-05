@@ -384,20 +384,12 @@ export function ChatKitPanel({
         <ChatKit
           key={widgetInstanceKey}
           control={chatkit.control}
-          className={
-            shouldHideChatKit
-              ? "pointer-events-none opacity-0"
-              : "block h-full w-full"
-          }
+          className="block h-full w-full"
         />
       </div>
       <ErrorOverlay
         error={blockingError}
-        fallbackMessage={
-          blockingError || !isInitializingSession
-            ? null
-            : "Loading assistant session..."
-        }
+        fallbackMessage={null}
         onRetry={blockingError && errors.retryable ? handleResetChat : null}
         retryLabel="Restart chat"
         theme={theme}
