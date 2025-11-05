@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import Image from "next/image";
 import { ChatKitPanel, type FactAction } from "@/components/ChatKitPanel";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
@@ -26,10 +27,13 @@ export default function App() {
   return (
     <main className={`flex min-h-screen flex-col items-center justify-end transition-colors ${scheme === "light" ? "bg-slate-100" : "bg-slate-950"}`}>
       <div className="fixed top-4 left-6 z-30">
-        <img
+        <Image
           src="/images/design-business-freedom-logo.png"
           alt="Design Business Freedom with Melissa Galt"
+          width={200}
+          height={64}
           className="h-16 w-auto"
+          priority
         />
       </div>
       <button
