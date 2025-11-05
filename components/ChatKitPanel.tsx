@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import {
   STARTER_PROMPTS,
@@ -286,7 +286,60 @@ export function ChatKitPanel({
     [isWorkflowConfigured, setErrorState]
   );
 
-  const chatkitConfig = useMemo(() => ({
+  // Stabilize all callbacks
+  const handleClientTool = useCallback(async (invocation: {
+    name: string;
+    params: Record<string, unknown>;
+  }) => {
+    console.log("[ChatKitPanel] onClientTool called", invocation.name);
+    if (invocation.name === "switch_theme") {
+      const requested = invocation.params.theme;
+      if (requested === "light" || requested === "dark") {
+        if (isDev) {
+          console.debug("[ChatKitPanel] switch_theme", requested);
+        }
+        onThemeRequest(requested);
+        return { success: true };
+      }
+      return { success: false };
+    }
+
+    if (invocation.name === "record_fact") {
+      const id = String(invocation.params.fact_id ?? "");
+      const text = String(invocation.params.fact_text ?? "");
+      if (!id || processedFacts.current.has(id)) {
+        return { success: true };
+      }
+      processedFacts.current.add(id);
+      void onWidgetAction({
+        type: "save",
+        factId: id,
+        factText: text.replace(/\s+/g, " ").trim(),
+      });
+      return { success: true };
+    }
+
+    return { success: false };
+  }, [onThemeRequest, onWidgetAction]);
+
+  const handleResponseStart = useCallback(() => {
+    setErrorState({ integration: null, retryable: false });
+  }, [setErrorState]);
+
+  const handleThreadChange = useCallback(() => {
+    processedFacts.current.clear();
+  }, []);
+
+  const handleError = useCallback(({ error }: { error: unknown }) => {
+    console.error("ChatKit error - FULL DETAILS:", {
+      error,
+      errorType: typeof error,
+      errorString: String(error),
+      errorJSON: JSON.stringify(error, null, 2),
+    });
+  }, []);
+
+  const chatkit = useChatKit({
     api: { getClientSecret },
     theme: {
       colorScheme: theme,
@@ -299,69 +352,18 @@ export function ChatKitPanel({
     composer: {
       placeholder: PLACEHOLDER_INPUT,
       attachments: {
-        // Enable attachments
         enabled: true,
       },
     },
     threadItemActions: {
       feedback: false,
     },
-    onClientTool: async (invocation: {
-      name: string;
-      params: Record<string, unknown>;
-    }) => {
-      console.log("[ChatKitPanel] onClientTool called", invocation.name);
-      if (invocation.name === "switch_theme") {
-        const requested = invocation.params.theme;
-        if (requested === "light" || requested === "dark") {
-          if (isDev) {
-            console.debug("[ChatKitPanel] switch_theme", requested);
-          }
-          onThemeRequest(requested);
-          return { success: true };
-        }
-        return { success: false };
-      }
-
-      if (invocation.name === "record_fact") {
-        const id = String(invocation.params.fact_id ?? "");
-        const text = String(invocation.params.fact_text ?? "");
-        if (!id || processedFacts.current.has(id)) {
-          return { success: true };
-        }
-        processedFacts.current.add(id);
-        void onWidgetAction({
-          type: "save",
-          factId: id,
-          factText: text.replace(/\s+/g, " ").trim(),
-        });
-        return { success: true };
-      }
-
-      return { success: false };
-    },
-    onResponseEnd: () => {
-      onResponseEnd();
-    },
-    onResponseStart: () => {
-      setErrorState({ integration: null, retryable: false });
-    },
-    onThreadChange: () => {
-      processedFacts.current.clear();
-    },
-    onError: ({ error }: { error: unknown }) => {
-      // Note that Chatkit UI handles errors for your users.
-      // Thus, your app code doesn't need to display errors on UI.
-      console.error("ChatKit error - FULL DETAILS:", {
-        error,
-        errorType: typeof error,
-        errorString: String(error),
-        errorJSON: JSON.stringify(error, null, 2),
-      });
-    },
-  }), [theme, getClientSecret, onThemeRequest, onWidgetAction, onResponseEnd, setErrorState]);
-
-  const chatkit = useChatKit(chatkitConfig);
+    onClientTool: handleClientTool,
+    onResponseEnd,
+    onResponseStart: handleResponseStart,
+    onThreadChange: handleThreadChange,
+    onError: handleError,
+  });
 
   // Track chatkit.control changes
   useEffect(() => {
