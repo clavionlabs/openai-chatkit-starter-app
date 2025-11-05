@@ -66,14 +66,18 @@ export function ChatKitPanel({
     setErrors((current) => ({ ...current, ...updates }));
   }, []);
 
-  // Temporary debugging
+  // Temporary debugging - expanded
   useEffect(() => {
-    console.log('[ChatKitPanel] State:', {
-      isInitializingSession,
-      errors,
-      scriptStatus
-    });
-  }, [isInitializingSession, errors, scriptStatus]);
+    console.log('[ChatKitPanel] isInitializingSession changed:', isInitializingSession);
+  }, [isInitializingSession]);
+
+  useEffect(() => {
+    console.log('[ChatKitPanel] errors changed:', JSON.stringify(errors, null, 2));
+  }, [errors]);
+
+  useEffect(() => {
+    console.log('[ChatKitPanel] scriptStatus changed:', scriptStatus);
+  }, [scriptStatus]);
 
   useEffect(() => {
     return () => {
@@ -168,13 +172,12 @@ export function ChatKitPanel({
 
   const getClientSecret = useCallback(
     async (currentSecret: string | null) => {
-      if (isDev) {
-        console.info("[ChatKitPanel] getClientSecret invoked", {
-          currentSecretPresent: Boolean(currentSecret),
-          workflowId: WORKFLOW_ID,
-          endpoint: CREATE_SESSION_ENDPOINT,
-        });
-      }
+      console.info("[ChatKitPanel] getClientSecret invoked", {
+        currentSecretPresent: Boolean(currentSecret),
+        workflowId: WORKFLOW_ID,
+        endpoint: CREATE_SESSION_ENDPOINT,
+        timestamp: new Date().toISOString(),
+      });
 
       if (!isWorkflowConfigured) {
         const detail =
@@ -246,6 +249,11 @@ export function ChatKitPanel({
           throw new Error("Missing client secret in response");
         }
 
+        console.info("[ChatKitPanel] Session created successfully", {
+          hasClientSecret: Boolean(clientSecret),
+          timestamp: new Date().toISOString(),
+        });
+
         if (isMountedRef.current) {
           setErrorState({ session: null, integration: null });
         }
@@ -263,6 +271,9 @@ export function ChatKitPanel({
         throw error instanceof Error ? error : new Error(detail);
       } finally {
         if (isMountedRef.current && !currentSecret) {
+          console.info("[ChatKitPanel] Setting isInitializingSession to false", {
+            timestamp: new Date().toISOString(),
+          });
           setIsInitializingSession(false);
         }
       }
@@ -341,13 +352,15 @@ export function ChatKitPanel({
 
   const activeError = errors.session ?? errors.integration;
   const blockingError = errors.script ?? activeError;
+  const shouldHideChatKit = blockingError || isInitializingSession;
 
   if (isDev) {
     console.debug("[ChatKitPanel] render state", {
       isInitializingSession,
       hasControl: Boolean(chatkit.control),
       scriptStatus,
-      hasError: Boolean(blockingError),
+      blockingError,
+      shouldHideChatKit,
       workflowId: WORKFLOW_ID,
     });
   }
@@ -364,7 +377,7 @@ export function ChatKitPanel({
           key={widgetInstanceKey}
           control={chatkit.control}
           className={
-            blockingError || isInitializingSession
+            shouldHideChatKit
               ? "pointer-events-none opacity-0"
               : "block h-full w-full"
           }
