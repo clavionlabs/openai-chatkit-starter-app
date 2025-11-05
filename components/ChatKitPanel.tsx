@@ -62,6 +62,11 @@ export function ChatKitPanel({
   );
   const [widgetInstanceKey, setWidgetInstanceKey] = useState(0);
 
+  // Track theme changes
+  useEffect(() => {
+    console.log("[ChatKitPanel] Theme changed to:", theme);
+  }, [theme]);
+
   const setErrorState = useCallback((updates: Partial<ErrorState>) => {
     setErrors((current) => ({ ...current, ...updates }));
   }, []);
@@ -363,6 +368,28 @@ export function ChatKitPanel({
       control: chatkit.control,
     });
   }, [chatkit.control]);
+
+  // Check if ChatKit element exists in DOM
+  useEffect(() => {
+    const checkElement = () => {
+      const chatkitElements = document.querySelectorAll('openai-chatkit');
+      console.log("[ChatKitPanel] DOM Check:", {
+        chatkitElementsCount: chatkitElements.length,
+        chatkitElements: Array.from(chatkitElements).map(el => ({
+          isConnected: el.isConnected,
+          style: (el as HTMLElement).style.cssText,
+          className: el.className,
+          offsetHeight: (el as HTMLElement).offsetHeight,
+          offsetWidth: (el as HTMLElement).offsetWidth,
+        })),
+      });
+    };
+
+    const timer = setInterval(checkElement, 2000);
+    checkElement(); // Check immediately
+
+    return () => clearInterval(timer);
+  }, []);
 
   const activeError = errors.session ?? errors.integration;
   const blockingError = errors.script ?? activeError;
