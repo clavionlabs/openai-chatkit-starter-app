@@ -379,13 +379,13 @@ export function ChatKitPanel({
   });
 
   return (
-    <div className={`relative pb-8 flex h-[90vh] w-full rounded-2xl flex-col overflow-hidden shadow-sm transition-colors border border-[#B4995B] ${theme === "dark" ? "bg-slate-900" : "bg-white"}`}>
-      <div className={`absolute top-0 left-0 right-0 z-10 flex items-center justify-center px-6 py-4 border-b border-[#B4995B] ${theme === "dark" ? "bg-slate-900" : "bg-white"}`}>
+    <div className={`relative pb-8 flex h-[90vh] w-full rounded-2xl flex-col shadow-sm transition-colors border border-[#B4995B] ${theme === "dark" ? "bg-slate-900" : "bg-white"}`}>
+      <div className={`flex-shrink-0 flex items-center justify-center px-6 py-4 border-b border-[#B4995B] ${theme === "dark" ? "bg-slate-900" : "bg-white"}`}>
         <h1 className={`text-2xl font-bold ${theme === "dark" ? "text-white" : "text-slate-900"}`} style={{ fontFamily: "var(--font-josefin-sans)" }}>
           AI HR Dream Team
         </h1>
       </div>
-      <div className="mt-20 h-full">
+      <div className="flex-1 min-h-0">
         <ChatKit
           key={widgetInstanceKey}
           control={chatkit.control}
