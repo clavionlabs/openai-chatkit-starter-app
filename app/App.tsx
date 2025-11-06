@@ -25,9 +25,9 @@ export default function App() {
   };
 
   return (
-    <main className={`flex min-h-screen flex-col items-center transition-colors ${scheme === "light" ? "bg-slate-100" : "bg-slate-950"}`}>
-      <div className="w-full max-w-5xl px-4">
-        <div className="flex items-center justify-between py-4">
+    <main className={`flex min-h-screen flex-col transition-colors ${scheme === "light" ? "bg-slate-100" : "bg-slate-950"}`}>
+      <div className="w-full px-6 py-4">
+        <div className="flex items-center justify-between">
           <div>
             <Image
               src="/images/design-business-freedom-logo.png"
